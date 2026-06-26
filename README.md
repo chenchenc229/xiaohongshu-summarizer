@@ -50,25 +50,7 @@
     （30秒内完成）          （看报告判断）       （值得花时间再看原文）
 ```
 
-### 安装方式
 
-#### 方式一：从 GitHub 仓库安装（推荐）
-
-```bash
-# 克隆仓库到本地
-git clone https://github.com/chenchenc229/xiaohongshu-summarizer.git
-
-# 将 SKILL.md 复制到 WorkBuddy 用户级 skills 目录
-cp xiaohongshu-summarizer/SKILL.md ~/.workbuddy/skills/xiaohongshu-creator-summarizer/SKILL.md
-```
-
-安装完成后，重启 WorkBuddy 或在对话中触发关键词即可使用。
-
-#### 方式二：直接复制 SKILL.md
-
-从本仓库下载 [SKILL.md](./SKILL.md)，将其放入 `~/.workbuddy/skills/xiaohongshu-creator-summarizer/` 目录下（目录不存在则手动创建），然后重启 WorkBuddy。
-
-> 安装此 Skill 后，在 WorkBuddy 对话中输入"总结小红书博主 + 主页链接"即可自动触发。
 
 ### 安装前提
 
@@ -90,7 +72,7 @@ cp xiaohongshu-summarizer/SKILL.md ~/.workbuddy/skills/xiaohongshu-creator-summa
    - 确保代理设置正确（通常端口 `7890`）
    - 部分小红书内容需要科学上网访问
 
-### 使用方法
+### 安装方式
 跟你的Agent工具说：
   ```bash
 npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer  
