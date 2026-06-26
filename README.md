@@ -21,9 +21,29 @@
 - 博主以图文内容为主（如行业观点、经验分享类博主）
 - 博主内容混合视频+图文，两者都需要总结
 
+### 安装方式
+
+#### 方式一：从 GitHub 仓库安装（推荐）
+
+```bash
+# 克隆仓库到本地
+git clone https://github.com/chenchenc229/xiaohongshu-summarizer.git
+
+# 将 SKILL.md 复制到 WorkBuddy 用户级 skills 目录
+cp xiaohongshu-summarizer/SKILL.md ~/.workbuddy/skills/xiaohongshu-creator-summarizer/SKILL.md
+```
+
+安装完成后，重启 WorkBuddy 或在对话中触发关键词即可使用。
+
+#### 方式二：直接复制 SKILL.md
+
+从本仓库下载 [SKILL.md](./SKILL.md)，将其放入 `~/.workbuddy/skills/xiaohongshu-creator-summarizer/` 目录下（目录不存在则手动创建），然后重启 WorkBuddy。
+
+> 安装此 Skill 后，在 WorkBuddy 对话中输入"总结小红书博主 + 主页链接"即可自动触发。
+
 ### 安装前提
 
-使用前**必须先安装 OpenCLI**：
+使用 Skill 前**必须先安装 OpenCLI**：
 
 1. **安装 OpenCLI 命令行工具**
    ```bash
@@ -91,6 +111,26 @@ This Skill performs **deep content analysis** of Xiaohongshu (RED / Little Red B
 - Mixed content creators — both video and image posts need analysis
 
 ### Prerequisites
+
+#### Option 1: Install from GitHub (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/chenchenc229/xiaohongshu-summarizer.git
+
+# Copy SKILL.md to WorkBuddy's user-level skills directory
+cp xiaohongshu-summarizer/SKILL.md ~/.workbuddy/skills/xiaohongshu-creator-summarizer/SKILL.md
+```
+
+Restart WorkBuddy, then trigger the Skill by mentioning a Xiaohongshu creator link in conversation.
+
+#### Option 2: Manual Installation
+
+Download [SKILL.md](./SKILL.md) from this repository, place it at `~/.workbuddy/skills/xiaohongshu-creator-summarizer/SKILL.md` (create the directory if it doesn't exist), and restart WorkBuddy.
+
+> After installation, just say "summarize this Xiaohongshu creator + profile link" in WorkBuddy to auto-trigger the Skill.
+
+### Environment Setup
 
 You **must install OpenCLI** before using this Skill:
 
