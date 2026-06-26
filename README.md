@@ -42,7 +42,10 @@
    - 部分小红书内容需要科学上网访问
 
 ### 使用方法
-跟你的Agent工具说：npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer
+跟你的Agent工具说：
+  ```bash
+npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer  
+```
 
 **触发方式**：在 Agent 对话中说出以下内容即可自动触发此 Skill：
 - "帮我总结这个小红书博主：[链接]"
