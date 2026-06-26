@@ -42,8 +42,9 @@
    - 部分小红书内容需要科学上网访问
 
 ### 使用方法
+跟你的Agent工具说：npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer
 
-**触发方式**：在 WorkBuddy 对话中说出以下内容即可自动触发此 Skill：
+**触发方式**：在 Agent 对话中说出以下内容即可自动触发此 Skill：
 - "帮我总结这个小红书博主：[链接]"
 - "总结 [博主UID] 的前N条笔记"
 - "看看这个博主发了什么内容"
