@@ -13,6 +13,11 @@
 - **视频笔记**：通过 OpenCLI 获取 AI 视频内容摘要
 - **图文笔记**：通过 OpenCLI 获取 AI 图文内容解读
 - **混合内容**：同一博主的视频+图文笔记同时分析
+- **进度追踪**：实时记录每条笔记的获取状态，成功率低于阈值时主动提醒
+- **多关键词搜索**：每条笔记自动尝试多组关键词，最大化获取率
+- **批量搜索优化**：5-8条笔记合并为一次搜索，节省 30-50% 的 API 调用
+- **时间线分析**：自动梳理博主的内容演变脉络
+- **跨笔记关联**：识别同主题笔记之间的方法论递进关系
 
 ### 使用场景
 
@@ -50,7 +55,48 @@
     （30秒内完成）          （看报告判断）       （值得花时间再看原文）
 ```
 
+### 进阶用法
 
+#### 批量分析多个博主
+
+当需要调研某个行业的头部博主时：
+
+```bash
+# 依次分析多个博主
+# 例：分析商业空间领域的 Top 5 博主
+1. 建筑师黄伟 → 2. 文翰的城市更新实验室 → 3. 邹毅 → 4. Mall先生 → 5. 李晨晨
+```
+
+每个博主生成一份独立报告，放在 `outputs/` 目录下，可横向对比。
+
+#### 从单条笔记反向查找博主
+
+如果用户只提供了单条笔记链接（而非博主主页链接）：
+
+1. 用 AI 搜索提取博主名
+2. 基于博主名多角度搜索其他笔记
+3. 逐条获取详细内容
+4. 自动生成报告（标注数据来源）
+
+### 安装方式
+
+#### 方式一：从 GitHub 仓库安装（推荐）
+
+```bash
+# 克隆仓库到本地
+git clone https://github.com/chenchenc229/xiaohongshu-summarizer.git
+
+# 将 SKILL.md 复制到 WorkBuddy 用户级 skills 目录
+cp xiaohongshu-summarizer/SKILL.md ~/.workbuddy/skills/xiaohongshu-detector/SKILL.md
+```
+
+安装完成后，重启 WorkBuddy 或在对话中触发关键词即可使用。
+
+#### 方式二：直接复制 SKILL.md
+
+从本仓库下载 [SKILL.md](./SKILL.md)，将其放入 `~/.workbuddy/skills/xiaohongshu-detector/` 目录下（目录不存在则手动创建），然后重启 WorkBuddy。
+
+> 安装此 Skill 后，在 WorkBuddy 对话中输入"总结小红书博主 + 主页链接"即可自动触发。
 
 ### 安装前提
 
@@ -72,7 +118,8 @@
    - 确保代理设置正确（通常端口 `7890`）
    - 部分小红书内容需要科学上网访问
 
-### 安装方式
+### 使用方法
+
 跟你的Agent工具说：
   ```bash
 npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer  
@@ -92,11 +139,14 @@ npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer
 
 ### 输出报告内容
 
-- **博主档案**：昵称、ID、简介、专注领域
+- **博主档案**：昵称、ID、简介、专注领域、粉丝数
 - **每条笔记详情**：标题、类型（视频/图文）、互动数据、标签、内容摘要、核心观点
 - **内容分类统计**：按主题分类的笔记数量和视频/图文比例
 - **TOP 5 高互动笔记**：点赞最多的前5条
 - **核心发现**：博主内容的共性规律和价值主张
+- **内容演变时间线**：按时间顺序梳理博主话题变化
+- **跨笔记关联分析**：识别同主题笔记之间的方法论递进关系
+- **详细解读覆盖率**：标注成功获取/部分获取/无法获取的笔记数量
 
 ### 案例报告
 
@@ -116,6 +166,8 @@ npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer
 | OpenCLI 未安装 | 安装 OpenCLI 并加载 Chrome 扩展 |
 | 内容摘要为空 | 调整搜索关键词或检查网络代理 |
 | 博主笔记为 0 | 博主可能为新号或设置了隐私权限 |
+| 批量搜索结果混乱 | 退回单条搜索，逐条获取 |
+| 成功率 < 50% | 检查网络连接，确认代理设置，重试 3 次后仍失败则告知用户 |
 
 ---
 
@@ -125,12 +177,63 @@ npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer
 
 This Skill performs **discovery and evaluation** of Xiaohongshu (RED / Little Red Book) creators. Use it to quickly assess whether a creator is worth following, then dive deeper into their content.
 
+**Features**:
+- Deep content analysis of video + image notes
+- Progress tracking with success rate monitoring
+- Multi-keyword search strategy for maximum coverage
+- Batch search optimization (saves 30-50% API calls)
+- Timeline analysis + cross-note correlation + methodology extraction
+
 ### Use Cases
 
-- User provides a Xiaohongshu creator profile URL and asks to "summarize all notes" or "summarize the first N posts"
-- Creators focused on video content (e.g., commercial space observers, retail business consultants)
-- Creators focused on image posts (e.g., industry insights, experience sharing)
-- Mixed content creators — both video and image posts need analysis
+#### 1. Quick Discovery — The Main Way to Use This
+
+Found a creator you don't know? Before spending time reading their notes:
+
+1. **Paste the link** → "Help me summarize this creator's first 10 notes"
+2. **Review in 30 seconds** → Is their content valuable to you?
+3. **Decide** → If the insights resonate, read originals deeply; if not, skip
+4. **Result** → You either found a treasure creator or saved hours of browsing
+
+#### 2. Direct Summarization
+
+Summarize all notes or the first N notes of any Xiaohongshu creator.
+
+#### 3. Competitor Creator Matrix Analysis
+
+- Identify Top 10 creators in a niche → batch-generate reports → compare content strategies
+- Analyze **methodology differences**, **viral patterns**, **monetization paths** across creators
+
+### Example Workflow
+
+```
+Discover creator → Agent summarizes 20 notes → Quick value assessment → Follow or ignore
+     ↓
+    (30 seconds)              (read report)             (decide to dive in)
+```
+
+### Advanced Usage
+
+#### Batch Analysis of Multiple Creators
+
+When researching top creators in a specific industry:
+
+```bash
+# Analyze Top 5 creators in a niche one by one
+# Example: commercial space领域
+1. 建筑师黄伟 → 2. 文翰的城市更新实验室 → 3. 邹毅 → 4. Mall先生 → 5. 李晨晨
+```
+
+Each creator generates an independent report in the `outputs/` directory for cross-comparison.
+
+#### Reverse Lookup from Single Note Link
+
+If you only have a single note link (not a creator profile URL):
+
+1. Use AI search to extract the creator name
+2. Search for other notes based on the creator name
+3. Get detailed content for each note
+4. Auto-generate report (with data source annotations)
 
 ### Prerequisites
 
@@ -141,14 +244,14 @@ This Skill performs **discovery and evaluation** of Xiaohongshu (RED / Little Re
 git clone https://github.com/chenchenc229/xiaohongshu-summarizer.git
 
 # Copy SKILL.md to WorkBuddy's user-level skills directory
-cp xiaohongshu-summarizer/SKILL.md ~/.workbuddy/skills/xiaohongshu-creator-summarizer/SKILL.md
+cp xiaohongshu-summarizer/SKILL.md ~/.workbuddy/skills/xiaohongshu-detector/SKILL.md
 ```
 
 Restart WorkBuddy, then trigger the Skill by mentioning a Xiaohongshu creator link in conversation.
 
 #### Option 2: Manual Installation
 
-Download [SKILL.md](./SKILL.md) from this repository, place it at `~/.workbuddy/skills/xiaohongshu-creator-summarizer/SKILL.md` (create the directory if it doesn't exist), and restart WorkBuddy.
+Download [SKILL.md](./SKILL.md) from this repository, place it at `~/.workbuddy/skills/xiaohongshu-detector/SKILL.md` (create the directory if it doesn't exist), and restart WorkBuddy.
 
 > After installation, just say "summarize this Xiaohongshu creator + profile link" in WorkBuddy to auto-trigger the Skill.
 
@@ -194,39 +297,14 @@ You **must install OpenCLI** before using this Skill:
 
 ### Report Contents
 
-- **Creator Profile**: Nickname, ID, bio, focus areas
+- **Creator Profile**: Nickname, ID, bio, focus areas, follower count
 - **Per-Note Details**: Title, type (video/image), engagement metrics, tags, content summary, core viewpoints
 - **Content Classification**: Notes grouped by topic with video/image ratio
 - **Top 5 High-Engagement Notes**: Posts with most likes/saves
 - **Key Insights**: Common themes and value propositions across the creator's content
-
-### Use Cases
-
-#### 1. Quick Discovery — The Main Way to Use This
-
-Found a creator you don't know? Before spending time reading their notes:
-
-1. **Paste the link** → "Help me summarize this creator's first 10 notes"
-2. **Review in 30 seconds** → Is their content valuable to you?
-3. **Decide** → If the insights resonate, read originals deeply; if not, skip
-4. **Result** → You either found a treasure creator or saved hours of browsing
-
-#### 2. Direct Summarization
-
-Summarize all notes or the first N notes of any Xiaohongshu creator.
-
-#### 3. Competitor Creator Matrix Analysis
-
-- Identify Top 10 creators in a niche → batch-generate reports → compare content strategies
-- Analyze **methodology differences**, **viral patterns**, **monetization paths** across creators
-
-### Example Workflow
-
-```
-Discover creator → Agent summarizes 20 notes → Quick value assessment → Follow or ignore
-     ↓
-    (30 seconds)              (read report)             (decide to dive in)
-```
+- **Timeline Analysis**: Chronological evolution of creator's topics
+- **Cross-Note Correlation**: Identifies methodological connections between related notes
+- **Coverage Report**: Marks successfully obtained / partially obtained / unobtainable notes
 
 ### FAQ
 
@@ -235,6 +313,8 @@ Discover creator → Agent summarizes 20 notes → Quick value assessment → Fo
 | OpenCLI not installed | Install OpenCLI and load the Chrome extension |
 | Content summary is empty | Adjust search keywords or check proxy settings |
 | Creator has 0 notes | Creator may be new or have private notes |
+| Batch search results are messy | Fall back to individual note searches |
+| Success rate < 50% | Check network, retry 3 times, or inform user |
 
 ### Case Studies
 
