@@ -80,14 +80,11 @@
 
 ### 安装方式
 
-#### 方式一：从 GitHub 仓库安装（推荐）
+#### 方式一：Agent直接安装（推荐）
 
-```bash
-# 克隆仓库到本地
-git clone https://github.com/chenchenc229/xiaohongshu-summarizer.git
-
-# 将 SKILL.md 复制到 WorkBuddy 用户级 skills 目录
-cp xiaohongshu-summarizer/SKILL.md ~/.workbuddy/skills/xiaohongshu-detector/SKILL.md
+跟你的Agent工具说：
+  ```bash
+npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer  
 ```
 
 安装完成后，重启 WorkBuddy 或在对话中触发关键词即可使用。
@@ -118,12 +115,6 @@ cp xiaohongshu-summarizer/SKILL.md ~/.workbuddy/skills/xiaohongshu-detector/SKIL
    - 确保代理设置正确（通常端口 `7890`）
    - 部分小红书内容需要科学上网访问
 
-### 使用方法
-
-跟你的Agent工具说：
-  ```bash
-npx skills add https://github.com/chenchenc229/xiaohongshu-summarizer  
-```
 
 **触发方式**：在 Agent 对话中说出以下内容即可自动触发此 Skill：
 - "帮我总结这个小红书博主：[链接]"
